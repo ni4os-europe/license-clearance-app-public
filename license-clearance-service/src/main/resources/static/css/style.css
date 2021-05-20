@@ -1,0 +1,107 @@
+@font-face {
+    font-family: Arial Unicode MS;
+    src: url('./fonts/ARIALUNI.TTF');
+    -fs-pdf-font-embed: embed;
+    -fs-pdf-font-encoding: Identity-H;
+}
+
+* {
+    font-family: Arial Unicode MS;
+}
+
+th, td{
+    padding-bottom: .2cm;
+    text-align: left;
+}
+
+
+
+.reportSection tr:nth-child(odd){background-color: #f2f2f2;}
+
+.reportSection th,td{
+    width: 450px;
+}
+
+.sectionHeader th{
+    text-align:center;
+    color:white;
+    background-color: #008276;
+    font-size: large;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+th{
+    font-weight: 450;
+}
+
+.reportSection{
+    margin-top: 1.4cm;
+}
+
+#resourceHeader th{
+    padding-top: .2cm;
+    padding-bottom: .2cm;
+    background-color: #ccdbec;
+    text-align: center;
+}
+#link{
+    font-style: italic;
+}
+
+/* Add some white space above datasource header */
+#resourceHeader:before{
+    content: "-";
+    color: white;
+    display: block;
+    line-height: 2em;
+    background-color: white;
+}
+
+/* Add some white space below datasource header */
+/* #resourceHeader:after{
+    content: "-";
+    color: white;
+    display: block;
+    line-height: 1em;
+    background-color: white;
+} */
+
+
+/*Cover page*/
+.page-break {
+    page-break-after: always;
+}
+
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.grey {
+    color: gray;
+}
+
+.grey-bold {
+    color: gray;
+    font-weight: bold;
+}
+
+.foo{
+    bottom: 0;
+    padding-top: 1.5cm;
+}
+
+.footer-img{
+    /*width:120px;*/
+    display: block;
+    /*padding-top: 60px;*/
+    margin-left: auto;
+    margin-right: auto;
+}
