@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PDF Report Template</title>
+    <link media="all" th:href="@{classpath:static/css/style.css}" rel="stylesheet"  />
+</head>
+
+
+<body>
+
+<!--Cover Page-->
+<div class="page-break" th:include="reportCover::reportCover"></div>
+
+<!--Report Title-->
+<!--<hr style="border: 1px solid #3699FF"/>-->
+<div class="reporHeader">
+
+    <h2 style="text-align: center; color: #008276">
+
+        <div th:if="${data.get('workflow') == 1}">
+            <span>Resource-driven Clearance Report</span>
+        </div>
+
+        <div th:if="${data.get('workflow') == 2}">
+            <span>License-driven Clearance Report</span>
+        </div>
+
+
+    </h2>
+</div>
+<!--<hr style="border: 1px solid #3699FF"/>-->
+
+<!-- STEP 1-->
+<div class="reportSection">
+    <table>
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2">Resource Information</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <th> Resource Type </th>
+            <td th:text="${data.get('Step1question1')} ?: '-'" />
+        </tr>
+        <tr>
+            <th> Resource Name </th>
+            <td th:text="${data.get('Step1question2')} ?: '-'" />
+        </tr>
+        <tr>
+            <th> Resource Description </th>
+            <td th:text="${data.get('Step1question3')} ?: '-'" />
+        </tr>
+        <tr>
+            <th> URL </th>
+            <td>
+                <span th:unless="${data.get('Step1question4') == null}">
+                    <a th:href="@{${data.get('Step1question4')}}"><span th:text="${data.get('Step1question4')}"></span></a>
+                </span>
+                    <span th:if="${data.get('Step1question4') == null}">-</span>
+            </td>
+        </tr>
+        <tr>
+            <th>DOI</th>
+            <td th:text="${data.get('Step1question5')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Manager's Full Name</th>
+            <td th:text="${data.get('Step1question6')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Manager's Email</th>
+            <td th:text="${data.get('Step1question7')} ?: '-'" />
+        </tr>
+    </table>
+</div>
+
+<!-- STEP 2-->
+
+<div class="reportSection">
+
+    <table>
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2">Licensing In</th>
+            </tr>
+        </thead>
+
+        <div th:each="index : ${#numbers.sequence( 0, #arrays.length(data.get('0'))-1)}">
+
+            <thead id="resourceHeader">
+                <tr>
+                    <th colspan="2" th:utext=" 'Resource ' + ${index+1}"></th>
+                </tr>
+            </thead>
+
+            <tr>
+                <th>Resource Name</th>
+                <td th:text="${data.get('0')[index]} ?: '-'" />
+            </tr>
+            <tr>
+                <th>Data Source Description</th>
+                <td th:text="${data.get('1')[index]} ?: '-'" />
+            </tr>
+            <tr>
+                <th>URL</th>
+                <td>
+                    <span th:unless="${data.get('2')[index] == null}">
+                        <a th:href="@{${data.get('2')[index]}}"><span th:text="${data.get('2')[index]}"></span></a>
+                    </span>
+                    <span th:if="${data.get('2')[index] == null}">
+                        -
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>DOI</th>
+                <td th:text="${data.get('3')[index]} ?: '-'" />
+            </tr>
+            <tr>
+                <th>Owner's Full Name</th>
+                <td th:text="${data.get('4')[index]} ?: '-'" />
+
+            </tr>
+            <tr>
+                <th>Owner's Email</th>
+                <td th:text="${data.get('5')[index]} ?: '-'" />
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td th:text="${data.get('6')[index]} ?: '-'" />
+            </tr>
+            <tr>
+                <th>Existing License</th>
+                <td th:text="${data.get('7')[index]} ?: '-'" />
+            </tr>
+        </div>
+    </table>
+</div>
+
+
+<!-- STEP 3-->
+
+<div class="reportSection">
+
+    <table>
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2">Licensing Out</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>Selected License</th>
+            <td th:text="${data.get('Step3question1')} ?: '-'" />
+        </tr>
+    </table>
+
+</div>
+
+<!-- STEP 4-->
+
+<div class="reportSection">
+
+    <table>
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2">Personal Data</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <th>Does the resource contain personal data? </th>
+            <td th:text="${data.get('Step4question1')} ? 'Yes' : 'No'"></td>
+
+        </tr>
+        <tr>
+            <th>Does the resource contain a special category of personal data? </th>
+            <td th:text="${data.get('Step4question2')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Are there personal data anonymised? </th>
+            <td th:text="${data.get('Step4question3')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Are there personal data pseudoanonymised? </th>
+            <td th:text="${data.get('Step4question4')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>What is the legal basis for processing the data? </th>
+            <td th:text="${data.get('Step4question5')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Information provided to the data subject </th>
+            <td th:text="${data.get('Step4question6')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Legal Obligation: Relevant provisions </th>
+            <td th:text="${data.get('Step4question7')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Public Interest: Justification </th>
+            <td th:text="${data.get('Step4question8')} ?: '-'" />
+        </tr>
+        <tr>
+            <th>Contract: Description of allowed processing </th>
+            <td th:text="${data.get('Step4question9')} ?: '-'" />
+
+        </tr>
+
+    </table>
+
+
+</div>
+
+
+<!-- STEP 5-->
+
+<div class="reportSection">
+
+    <table>
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2">Other Rights</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>National legislation limitations</th>
+            <td th:text="${data.get('Step5question1')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Statistical limitations</th>
+            <td th:text="${data.get('Step5question2')} ?: '-'" />
+        </tr>
+
+        <tr>
+            <th>Confidentiality agreements</th>
+            <td th:text="${data.get('Step5question3')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Confidentiality Description</th>
+            <td th:text="${data.get('Step5question4')} ?: '-'" />
+        </tr>
+
+        <tr>
+            <th>Embargo period for the data?</th>
+            <td th:text="${data.get('Step5question5')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Embargo conditions</th>
+            <td th:text="${data.get('Step5question6')} ?: '-'" />
+        </tr>
+
+        <tr>
+            <th>National legislation limitations</th>
+            <td th:text="${data.get('Step5question7')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>National Security limitations: Specifications</th>
+            <td th:text="${data.get('Step5question8')} ?: '-'" />
+        </tr>
+
+        <tr>
+            <th>Cultural heritage legislation limitations?</th>
+            <td th:text="${data.get('Step5question9')} ? 'Yes' : 'No'"></td>
+        </tr>
+        <tr>
+            <th>Cultural heritage limitations: Specifications</th>
+            <td th:text="${data.get('Step5question10')} ?: '-'" />
+        </tr>
+
+        <tr>
+            <th>Has the resource been vetted by an Ethics Committee</th>
+            <td th:text="${data.get('Step5question11')} ? 'Yes' : 'No'"></td>
+        </tr>
+    </table>
+</div>
+
+
+<!-- STEP 6-->
+<div class="reportSection" >
+
+    <table id="additionalNotes">
+        <tr class="sectionHeader">
+            <th colspan="2"  >Additional Notes</th>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center" th:text="${data.get('Step6question1')} ?: '-'" />
+        </tr>
+    </table>
+
+
+</div>
+
+
+</body>
+</html>
