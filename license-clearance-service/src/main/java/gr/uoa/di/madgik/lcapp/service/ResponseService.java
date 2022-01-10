@@ -1,16 +1,14 @@
 package gr.uoa.di.madgik.lcapp.service;
 
 
+import gr.uoa.di.madgik.lcapp.model.clearance.ClearanceSubmission;
 import gr.uoa.di.madgik.lcapp.model.clearance.Response;
 import gr.uoa.di.madgik.lcapp.repository.ResponseRepository;
 import gr.uoa.di.madgik.lcapp.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class ResponseService {
@@ -21,7 +19,7 @@ public class ResponseService {
     @Autowired
     private AuthService authService;
 
-    public Response saveResponse(Map<String, Object> payload){
+    public Response saveResponse(ClearanceSubmission payload){
 
         Response response = new Response();
         UserPrincipal userPrincipal = authService.getPrincipal();
@@ -31,7 +29,7 @@ public class ResponseService {
         }
         response.setCreatedAt(new Date());
         response.setUpdatedAt(new Date());
-        response.setAnswers(payload);
+        response.setClearanceSubmission(payload);
         return responseRepository.save(response);
     }
 

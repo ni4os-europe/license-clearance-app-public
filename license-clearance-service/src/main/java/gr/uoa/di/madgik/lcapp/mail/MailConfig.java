@@ -11,7 +11,7 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 @Component
 @Configuration
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 public class MailConfig {
 
     @Value("${spring.mail.host}")
@@ -34,6 +34,19 @@ public class MailConfig {
 
     @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private String mailSmtpStartTls;
+
+    @Override
+    public String toString() {
+        return "MailConfig{" +
+                "host='" + host + '\'' +
+                ", port=" + port +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", mailProtocol='" + mailProtocol + '\'' +
+                ", mailSmtpAuth='" + mailSmtpAuth + '\'' +
+                ", mailSmtpStartTls='" + mailSmtpStartTls + '\'' +
+                '}';
+    }
 
     public String getHost() {
         return host;

@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserPrincipal implements OidcUser, UserDetails {
 
@@ -36,8 +37,12 @@ public class UserPrincipal implements OidcUser, UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName())
+        ).collect(Collectors.toList());
+
+//        List<GrantedAuthority> authorities = Collections.
+//                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new UserPrincipal(
                 user.getId(),
@@ -50,7 +55,7 @@ public class UserPrincipal implements OidcUser, UserDetails {
     }
 
     public static UserPrincipal create(User user, OidcUser oidcUser) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
+        UserPrincipal userPrincipal = create(user);
         userPrincipal.setAttributes(oidcUser.getAttributes());
         userPrincipal.setAuthorities(oidcUser.getAuthorities());
         userPrincipal.setOidcUserInfo(oidcUser.getUserInfo());

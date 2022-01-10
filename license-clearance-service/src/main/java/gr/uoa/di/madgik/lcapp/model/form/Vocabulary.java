@@ -1,9 +1,11 @@
 package gr.uoa.di.madgik.lcapp.model.form;
 
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
+@Document(collection ="vocabularies")
 public class Vocabulary {
 
     @Field("id")

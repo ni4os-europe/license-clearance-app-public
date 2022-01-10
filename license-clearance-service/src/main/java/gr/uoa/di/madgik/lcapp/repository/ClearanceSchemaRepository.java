@@ -1,23 +1,19 @@
 package gr.uoa.di.madgik.lcapp.repository;
 
 import gr.uoa.di.madgik.lcapp.model.form.ClearanceSchema;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface ClearanceSchemaRepository extends MongoRepository<ClearanceSchema,String> {
 
-    @Query(value = "{}", fields = "{'sections':1,'_id':0}")
-    List<ClearanceSchema> findSections();
+    Optional<ClearanceSchema> findByWorkflowAndVersionGreaterThan(String workflow, String version);
 
-    @Query(value = "{}", fields = "{'questions':1,'_id':0}")
-    List<ClearanceSchema> findQuestions();
-
-    @Query(value = "{}", fields = "{'vocabularies':1,'_id':0}")
-    List<ClearanceSchema> findVocabularies();
-
+    Optional<ClearanceSchema> findByWorkflow(String workflow);
 }

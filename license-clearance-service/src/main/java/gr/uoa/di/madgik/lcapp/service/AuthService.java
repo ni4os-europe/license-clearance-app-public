@@ -18,7 +18,6 @@ public class AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserPrincipal) {
             UserPrincipal principal = ((UserPrincipal) authentication.getPrincipal());
-            System.out.println(principal);
             return principal;
         }
         else

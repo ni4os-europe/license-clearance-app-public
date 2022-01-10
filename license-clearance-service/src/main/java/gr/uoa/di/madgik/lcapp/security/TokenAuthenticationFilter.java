@@ -1,5 +1,6 @@
 package gr.uoa.di.madgik.lcapp.security;
 
+import gr.uoa.di.madgik.lcapp.service.UserPrincipalService;
 import gr.uoa.di.madgik.lcapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private TokenProvider tokenProvider;
 
     @Autowired
-    private UserService userService;
+    private UserPrincipalService userPrincipalService;
 
     private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
@@ -37,7 +38,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Long userId = tokenProvider.getUserIdFromToken(jwt);
-                UserDetails userDetails = UserPrincipal.create(userService.findById(userId));
+                UserDetails userDetails = userPrincipalService.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -48,6 +49,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+        return;
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

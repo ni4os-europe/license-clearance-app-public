@@ -1,21 +1,15 @@
 package gr.uoa.di.madgik.lcapp;
 
-import gr.uoa.di.madgik.lcapp.model.ContactCategory;
-import gr.uoa.di.madgik.lcapp.model.Country;
-import gr.uoa.di.madgik.lcapp.model.auth.User;
-import gr.uoa.di.madgik.lcapp.security.CustomSuccessHandler;
-import gr.uoa.di.madgik.lcapp.service.ContactCategoryService;
-import gr.uoa.di.madgik.lcapp.service.CountryService;
-import gr.uoa.di.madgik.lcapp.service.UserService;
+import gr.uoa.di.madgik.lcapp.model.auth.Role;
+import gr.uoa.di.madgik.lcapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-import java.sql.Timestamp;
 
 
 @SpringBootApplication
@@ -23,13 +17,7 @@ import java.sql.Timestamp;
 public class LcappApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	@Autowired
-	UserService userService;
-
-	@Autowired
-	ContactCategoryService contactCategoryService;
-
-	@Autowired
-	CountryService countryService;
+	private RoleService roleService;
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -42,7 +30,9 @@ public class LcappApplication extends SpringBootServletInitializer implements Co
 
 	@Override
 	public void run(String... args) throws Exception {
-		// Create a new testuser
-//		userService.deleteAll();
+
+		// Insert roles in our DB
+		Role userRole = roleService.saveRole("ROLE_USER");
+		Role adminRole = roleService.saveRole("ROLE_ADMIN");
 	}
 }

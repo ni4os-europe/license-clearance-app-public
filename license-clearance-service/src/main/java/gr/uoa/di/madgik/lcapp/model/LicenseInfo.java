@@ -1,35 +1,23 @@
 package gr.uoa.di.madgik.lcapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
 
-@Document(collection ="licensesCompatibilityMatrix")
-public class License {
+public class LicenseInfo {
 
-    @Id
     private String id;
     private String name;
-    @JsonIgnore
-    private List<String> compatibleLicenses;
     private String type;
-    @JsonIgnore
     private List<String> permissions;
-    @JsonIgnore
     private List<String> prohibitions;
-    @JsonIgnore
     private List<String> obligations;
     private String url;
 
-    public License() {
+    public LicenseInfo() {
     }
 
-    public License(String id, String name, List<String> compatibleLicenses, String type, List<String> permissions, List<String> prohibitions, List<String> obligations, String url) {
+    public LicenseInfo(String id, String name, String type, List<String> permissions, List<String> prohibitions, List<String> obligations, String url) {
         this.id = id;
         this.name = name;
-        this.compatibleLicenses = compatibleLicenses;
         this.type = type;
         this.permissions = permissions;
         this.prohibitions = prohibitions;
@@ -39,10 +27,9 @@ public class License {
 
     @Override
     public String toString() {
-        return "License{" +
+        return "LicenseInfo{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", compatibleLicenses=" + compatibleLicenses +
                 ", type='" + type + '\'' +
                 ", permissions=" + permissions +
                 ", prohibitions=" + prohibitions +
@@ -65,14 +52,6 @@ public class License {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> getCompatibleLicenses() {
-        return compatibleLicenses;
-    }
-
-    public void setCompatibleLicenses(List<String> compatibleLicenses) {
-        this.compatibleLicenses = compatibleLicenses;
     }
 
     public String getType() {
@@ -115,5 +94,3 @@ public class License {
         this.url = url;
     }
 }
-
-

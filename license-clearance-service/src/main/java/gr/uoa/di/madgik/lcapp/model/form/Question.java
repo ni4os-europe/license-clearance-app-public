@@ -3,7 +3,7 @@ package gr.uoa.di.madgik.lcapp.model.form;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.List;
+import java.util.Map;
 
 public class Question {
 
@@ -16,17 +16,20 @@ public class Question {
     private Integer order;
     private Boolean mandatory;
     private String responseType;
+    private String callback;
+
+    private DependingQuestion dependsOn;
+
+    private Map<String,String> conditions;
 
     @JsonProperty("public")
     @Field("public")
     private Boolean publicAccess;
 
-    private String dependingQuestionId;
-    private String vocabularyId;
-    private List<VocabularyCondition> vocabularies;
+    public Question() {
+    }
 
-
-    public Question(String id, String name, String description, String sectionId, Integer order, Boolean mandatory, String responseType, Boolean publicAccess, String dependingQuestionId, String vocabularyId, List<VocabularyCondition> vocabularies) {
+    public Question(String id, String name, String description, String sectionId, Integer order, Boolean mandatory, String responseType, String callback, DependingQuestion dependsOn, Map<String, String> conditions, Boolean publicAccess) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -34,10 +37,27 @@ public class Question {
         this.order = order;
         this.mandatory = mandatory;
         this.responseType = responseType;
+        this.callback = callback;
+        this.dependsOn = dependsOn;
+        this.conditions = conditions;
         this.publicAccess = publicAccess;
-        this.dependingQuestionId = dependingQuestionId;
-        this.vocabularyId = vocabularyId;
-        this.vocabularies = vocabularies;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", sectionId='" + sectionId + '\'' +
+                ", order=" + order +
+                ", mandatory=" + mandatory +
+                ", responseType='" + responseType + '\'' +
+                ", callback='" + callback + '\'' +
+                ", dependsOn=" + dependsOn +
+                ", conditions=" + conditions +
+                ", publicAccess=" + publicAccess +
+                '}';
     }
 
     public String getId() {
@@ -96,35 +116,35 @@ public class Question {
         this.responseType = responseType;
     }
 
+    public String getCallback() {
+        return callback;
+    }
+
+    public void setCallback(String callback) {
+        this.callback = callback;
+    }
+
+    public DependingQuestion getDependsOn() {
+        return dependsOn;
+    }
+
+    public void setDependsOn(DependingQuestion dependsOn) {
+        this.dependsOn = dependsOn;
+    }
+
+    public Map<String, String> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(Map<String, String> conditions) {
+        this.conditions = conditions;
+    }
+
     public Boolean getPublicAccess() {
         return publicAccess;
     }
 
     public void setPublicAccess(Boolean publicAccess) {
         this.publicAccess = publicAccess;
-    }
-
-    public String getDependingQuestionId() {
-        return dependingQuestionId;
-    }
-
-    public void setDependingQuestionId(String dependingQuestionId) {
-        this.dependingQuestionId = dependingQuestionId;
-    }
-
-    public String getVocabularyId() {
-        return vocabularyId;
-    }
-
-    public void setVocabularyId(String vocabularyId) {
-        this.vocabularyId = vocabularyId;
-    }
-
-    public List<VocabularyCondition> getVocabularies() {
-        return vocabularies;
-    }
-
-    public void setVocabularies(List<VocabularyCondition> vocabularies) {
-        this.vocabularies = vocabularies;
     }
 }

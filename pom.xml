@@ -21,11 +21,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 
 
 		<dependency>
@@ -104,11 +104,51 @@
 
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<activatedProperties>local</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
+		<resources>
+			<resource>
+				<directory>license-clearance-service/src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>fonts/*</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>license-clearance-service/src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>fonts/*</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>gr.uoa.di.madgik.lcapp.LcappApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 		<finalName>lcapp-service</finalName>

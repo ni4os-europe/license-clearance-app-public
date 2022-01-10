@@ -11,6 +11,9 @@ public class Clearance {
     @Column(name = "id")
     private Long id;
 
+    @Column(nullable = false)
+    private String uuid;
+
     @Column(name = "created_at")
     private Date createdAt;
 
@@ -26,11 +29,19 @@ public class Clearance {
     @Column(name = "license")
     private String license;
 
+    @Column(name = "workflow")
+    private String workflow;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "report_path")
     private String reportPath;
+
+    @PrePersist
+    protected void onCreate() {
+        setUuid(java.util.UUID.randomUUID().toString());
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +49,14 @@ public class Clearance {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Date getCreatedAt() {
@@ -94,5 +113,13 @@ public class Clearance {
 
     public void setReportPath(String reportPath) {
         this.reportPath = reportPath;
+    }
+
+    public String getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(String workflow) {
+        this.workflow = workflow;
     }
 }

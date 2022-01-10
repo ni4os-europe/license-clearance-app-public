@@ -4,9 +4,7 @@ package gr.uoa.di.madgik.lcapp.model.clearance;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Map;
 
 @Document("response")
 public class Response {
@@ -22,7 +20,10 @@ public class Response {
 
     private String reportPath;
 
-    private Map<String, Object> answers;
+    private ClearanceSubmission clearanceSubmission;
+
+    public Response() {
+    }
 
     public String getId() {
         return id;
@@ -64,11 +65,11 @@ public class Response {
         this.reportPath = reportPath;
     }
 
-    public Map<String, Object> getAnswers() {
-        return answers;
+    public ClearanceSubmission getClearanceSubmission() {
+        return clearanceSubmission;
     }
 
-    public void setAnswers(Map<String, Object> answers) {
-        this.answers = answers;
+    public void setClearanceSubmission(ClearanceSubmission clearanceSubmission) {
+        this.clearanceSubmission = clearanceSubmission;
     }
 }

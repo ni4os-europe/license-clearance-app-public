@@ -1,26 +1,26 @@
-package gr.uoa.di.madgik.lcapp.model.form;
+package gr.uoa.di.madgik.lcapp.model;
 
-import org.springframework.data.mongodb.core.mapping.Field;
+public class LicenseSummary {
 
-public class Term {
-
-    @Field("id")
     private String id;
     private String name;
+    private String type;
 
-    public Term() {
+    public LicenseSummary() {
     }
 
-    public Term(String id, String name) {
+    public LicenseSummary(String id, String name, String type) {
         this.id = id;
         this.name = name;
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return "Term{" +
+        return "LicenseSummary{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 
@@ -38,5 +38,13 @@ public class Term {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

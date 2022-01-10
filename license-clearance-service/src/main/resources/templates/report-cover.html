@@ -1,4 +1,4 @@
-<div th:fragment="reportCover" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="cover" xmlns:th="http://www.w3.org/1999/xhtml">
 
 
     <img class="logo" alt="img not found" th:src="@{classpath:static/images/lct_logo.png}"/>
@@ -41,13 +41,13 @@
 
     </p>
 
-    <div th:if="${data.get('workflow') == 1}">
+    <div th:if="${workflow == 'resourceDriven'}">
         <p class="grey align-right" style="font-size:13px;  line-height:50%;">
             RESOURCE-DRIVEN CLEARANCE SUBMISSION THROUGH LCT
         </p>
     </div>
 
-    <div th:if="${data.get('workflow') == 2}">
+    <div th:if="${workflow == 'licenseDriven'}">
         <p class="grey align-right" style="font-size:13px;  line-height:50%;">
             LICENSE-DRIVEN CLEARANCE SUBMISSION THROUGH LCT
         </p>
@@ -77,7 +77,7 @@
 
     <br/>
 
-    <div class="foo row">
+    <div class="footer">
         <img class="footer-img column" width="120" alt="img not found" th:src="@{classpath:static/images/athena.png}"/>
         <img class="footer-img column"  width="80" alt="img not found" th:src="@{classpath:static/images/ni4os.png}"/>
     </div>

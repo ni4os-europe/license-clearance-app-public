@@ -1,5 +1,6 @@
 package gr.uoa.di.madgik.lcapp.service;
 
+import gr.uoa.di.madgik.lcapp.model.auth.Role;
 import gr.uoa.di.madgik.lcapp.model.auth.User;
 import gr.uoa.di.madgik.lcapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,6 +20,9 @@ public class UserService {
 
     @Autowired
     CountryService countryService;
+
+    @Autowired
+    RoleService roleService;
 
 
     public User createUser(OidcUserInfo oidcUserInfo) {
@@ -34,8 +41,15 @@ public class UserService {
         user.setAddress(oidcUserInfo.getAddress().getStreetAddress());
         user.setInstitutionName(oidcUserInfo.getClaim("eduperson_entitlement"));
         user.setActive(true);
-
+        Role role = roleService.findByName("ROLE_USER").orElseThrow(
+                RuntimeException::new
+        );
+        user.setRoles(new HashSet<Role>(){{add(role);}});
         return userRepository.save(user);
+    }
+
+    public List<User> findAll(){
+        return (List<User>) userRepository.findAll();
     }
 
     public void saveUser(User user){
@@ -46,12 +60,12 @@ public class UserService {
         userRepository.deleteAll();
     }
 
-    public User findById(Long id) throws Exception {
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
 
-        User user = userRepository.findById(id).orElseThrow(
-                Exception::new
-        );
-
-        return user;
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 }

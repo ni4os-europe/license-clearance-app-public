@@ -73,11 +73,15 @@ th{
     page-break-after: always;
 }
 
+.page-break-before {
+    page-break-before: always;
+}
+
 .logo{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 60%;
 }
 
 .align-right {
@@ -93,7 +97,7 @@ th{
     font-weight: bold;
 }
 
-.foo{
+.footer{
     bottom: 0;
     padding-top: 1.5cm;
 }

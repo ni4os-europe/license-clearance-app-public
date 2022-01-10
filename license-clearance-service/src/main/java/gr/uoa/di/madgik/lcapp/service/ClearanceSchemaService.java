@@ -1,6 +1,7 @@
 package gr.uoa.di.madgik.lcapp.service;
 
 
+import gr.uoa.di.madgik.lcapp.model.LicenseInfo;
 import gr.uoa.di.madgik.lcapp.model.form.ClearanceSchema;
 import gr.uoa.di.madgik.lcapp.model.form.Question;
 import gr.uoa.di.madgik.lcapp.model.form.Section;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClearanceSchemaService {
@@ -21,23 +23,17 @@ public class ClearanceSchemaService {
         clearanceSchemaRepository.insert(schema);
     }
 
-    public ClearanceSchema getSchema(){
-        return clearanceSchemaRepository.findAll().get(0);
+    public Optional<ClearanceSchema> getSchema(String workflow, String version){
+        return clearanceSchemaRepository.findByWorkflowAndVersionGreaterThan(workflow,version);
     }
 
-    public List<Section> getSections(){
-        return clearanceSchemaRepository.findSections().get(0).getSections();
-    }
-
-    public List<Question> getQuestions(){
-        return clearanceSchemaRepository.findQuestions().get(0).getQuestions();
-    }
-
-    public List<Vocabulary> getVocabularies() {
-        return clearanceSchemaRepository.findVocabularies().get(0).getVocabularies();
+    public Optional<ClearanceSchema> getSchema(String workflow){
+        return clearanceSchemaRepository.findByWorkflow(workflow);
     }
 
     public void deleteAll(){
         clearanceSchemaRepository.deleteAll();
     }
+
+
 }

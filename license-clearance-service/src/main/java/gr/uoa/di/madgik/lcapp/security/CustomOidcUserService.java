@@ -1,25 +1,30 @@
 package gr.uoa.di.madgik.lcapp.security;
 
 
-import gr.uoa.di.madgik.lcapp.model.auth.User;
 import gr.uoa.di.madgik.lcapp.repository.UserRepository;
+import gr.uoa.di.madgik.lcapp.service.UserPrincipalService;
 import gr.uoa.di.madgik.lcapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Arrays;
 
 @Service
 public class CustomOidcUserService extends OidcUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserPrincipalService userPrincipalService;
+
 
     @Autowired
     private UserService userService;
@@ -62,15 +67,28 @@ public class CustomOidcUserService extends OidcUserService {
      * @param oidcUser Oidc user of current security context
      * @return UserPrincipal for the given oidcUser
      */
-    private OidcUser processOidcUser(OidcUser oidcUser) {
+    public OidcUser processOidcUser(OidcUser oidcUser) {
 
-        Optional<User> userOptional = userRepository.findByEmail(oidcUser.getEmail());
-        User user;
+        UserDetails userDetails = userPrincipalService.loadUserByUsername(oidcUser.getEmail());
+
 
         // Insert new user to the DB (if not exist)
-        user = userOptional.orElseGet(() -> userService.createUser(oidcUser.getUserInfo()));
+        if (userDetails == null){
+            System.out.println("------------------------------------------------");
+            System.out.println("User does not exist. Inserting into database....");
+            System.out.println("------------------------------------------------\n");
+            userDetails = UserPrincipal.create(userService.createUser(oidcUser.getUserInfo()), oidcUser);
+        }
+        else{
+            System.out.println("------------------------------------------------");
+            System.out.println("User already in database");
+            System.out.println("------------------------------------------------\n");
+        }
 
-        // Create a UserPrincipal
-        return UserPrincipal.create(user, oidcUser);
+        System.out.println("===========================================");
+        System.out.println(Arrays.toString(userDetails.getAuthorities().toArray()));
+        System.out.println("===========================================");
+
+        return  (UserPrincipal)userDetails;
     }
 }

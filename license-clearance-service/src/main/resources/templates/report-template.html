@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PDF Report Template</title>
+    <link media="all" th:href="@{classpath:static/css/style.css}" rel="stylesheet"  />
+</head>
+
+
+<body>
+
+<!--Cover Page-->
+<div class="page-break" th:insert="report-cover::cover"></div>
+
+<!--<hr style="border: 1px solid #3699FF"/>-->
+<div>
+
+    <h2 style="text-align: center; color: #008276">
+
+        <div th:if="${workflow == 'resourceDriven'}">
+            <span>Resource-driven Clearance Report</span>
+        </div>
+
+        <div th:if="${workflow == 'licenseDriven'}">
+            <span>License-driven Clearance Report</span>
+        </div>
+
+
+    </h2>
+</div>
+<!--<hr style="border: 1px solid #3699FF"/>-->
+
+<!--SECTIONS -->
+<div class="reportSection" th:each="iter : ${data}">
+    <table th:unless="${iter['value'].acceptsMultiple}">
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2" th:text="${iter['value'].sectionName}"/>
+            </tr>
+        </thead>
+
+        <tr th:each="q : ${iter['value'].questions.get(0)}">
+            <th th:text="${q['value'].questionName}"/>
+            <td th:text="${q['value'].answer}"/>
+        </tr>
+
+    </table>
+
+    <table th:if="${iter['value'].acceptsMultiple}">
+        <thead>
+            <tr class="sectionHeader">
+                <th colspan="2" th:text="${iter['value'].sectionName}"/>
+            </tr>
+        </thead>
+
+        <div th:each="q, stats: ${iter['value'].questions}">
+            <thead id="resourceHeader">
+                <tr>
+                    <th colspan="2" th:utext=" 'Resource ' + ${stats.index+1}"></th>
+                </tr>
+            </thead>
+
+            <tr th:each="answer : ${q}">
+                <th th:text="${answer['value'].questionName}"/>
+                <td th:text="${answer['value'].answer}" />
+            </tr>
+        </div>
+
+    </table>
+
+</div>
+
+</body>
+</html>

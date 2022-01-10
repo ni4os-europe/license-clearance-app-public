@@ -22,8 +22,28 @@ public class Country {
     private String code;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
+
+    public Country(Long id, String name, String code, Set<User> users) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.users = users;
+    }
+
+    public Country() {
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", users=" + users +
+                '}';
+    }
 
     public Long getId() {
         return id;

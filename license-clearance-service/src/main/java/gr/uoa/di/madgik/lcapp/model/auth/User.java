@@ -4,6 +4,8 @@ import gr.uoa.di.madgik.lcapp.model.Country;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -47,6 +49,29 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public User(Long id, Date createdAt, Date updatedAt, String username, String email, String firstName, String lastName, Country country, String position, String address, String institutionName, Boolean isActive, Set<Role> roles) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.position = position;
+        this.address = address;
+        this.institutionName = institutionName;
+        this.isActive = isActive;
+        this.roles = roles;
+    }
 
     public User() {
     }
@@ -145,5 +170,13 @@ public class User {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
